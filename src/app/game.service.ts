@@ -6,30 +6,58 @@ import { Injectable } from '@angular/core';
 export class GameService {
   boardSize: number = 100;
   playerPosition: number = 1;
-  snakes: { [key: number]: number } = { 16: 6, 47: 26, 49: 11, 56: 53, 62: 19, 64: 60, 87: 24, 93: 73, 95: 75, 98: 78 };
-  ladders: { [key: number]: number } = { 1: 38, 4: 14, 9: 31, 21: 42, 28: 84, 36: 44, 51: 67, 71: 91, 80: 100 };
+  
+  // Define snakes and ladders on the board
+  snakes: { start: number, end: number }[] = [
+    { start: 16, end: 6 },
+    { start: 47, end: 26 },
+    { start: 49, end: 11 },
+    { start: 56, end: 53 },
+    { start: 62, end: 19 },
+    { start: 64, end: 60 },
+    { start: 87, end: 24 },
+    { start: 93, end: 73 },
+    { start: 95, end: 75 },
+    { start: 98, end: 78 },
+  ];
+  
+  ladders: { start: number, end: number }[] = [
+    { start: 1, end: 38 },
+    { start: 4, end: 14 },
+    { start: 9, end: 31 },
+    { start: 21, end: 42 },
+    { start: 28, end: 84 },
+    { start: 36, end: 44 },
+    { start: 51, end: 67 },
+    { start: 71, end: 91 },
+    { start: 80, end: 100 },
+  ];
 
-  constructor() { }
-
-
-  rollDice():number{
-    return Math.floor(Math.random()*6)+1;
+  rollDice(): number {
+    return Math.floor(Math.random() * 6) + 1;
   }
 
-  movePlayer(diceValue:number):void{
+  movePlayer(diceValue: number): void {
     this.playerPosition += diceValue;
 
-    if(this.playerPosition in this.snakes){
-      this.playerPosition = this.snakes[this.playerPosition];
-    }else if(this.playerPosition in  this.ladders){
-      this.playerPosition = this.ladders[this.playerPosition]
+    // Check for snakes and ladders
+    const snake = this.snakes.find(s => s.start === this.playerPosition);
+    if (snake) {
+      this.playerPosition = snake.end;
     }
-    if(this.playerPosition > this.boardSize){
+
+    const ladder = this.ladders.find(l => l.start === this.playerPosition);
+    if (ladder) {
+      this.playerPosition = ladder.end;
+    }
+
+    // Ensure the player doesn't move beyond the board
+    if (this.playerPosition > this.boardSize) {
       this.playerPosition = this.boardSize;
     }
   }
 
-  resetGame():void{
-this.playerPosition = 1;
+  resetGame(): void {
+    this.playerPosition = 1;
   }
 }

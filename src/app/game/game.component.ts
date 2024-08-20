@@ -11,32 +11,33 @@ export class GameComponent implements OnInit  {
   playerPosition: number = 1;
   board: number[] = Array.from({ length: 100 }, (_, i) => i + 1);
 
-  constructor(private service:GameService){}
+  constructor(private service: GameService) {}
+
   ngOnInit(): void {
-      
+    this.updatePlayerPosition();
   }
 
-  rollDice():void{
-this.diceValue = this.service.rollDice();
-this.service.movePlayer(this.diceValue);
-this.updatePlayerPosition();
+  rollDice(): void {
+    this.diceValue = this.service.rollDice();
+    this.service.movePlayer(this.diceValue);
+    this.updatePlayerPosition();
   }
 
-  updatePlayerPosition(){
+  updatePlayerPosition(): void {
     this.playerPosition = this.service.playerPosition;
   }
 
-  resetGame(){
+  resetGame(): void {
     this.service.resetGame();
-    this.updatePlayerPosition
+    this.updatePlayerPosition();
   }
 
   getClassForCell(cell: number): string {
     if (cell === this.playerPosition) {
       return 'player';
-    } else if (cell in this.service.snakes) {
+    } else if (this.service.snakes.some(s => s.start === cell || s.end === cell)) {
       return 'snake';
-    } else if (cell in this.service.ladders) {
+    } else if (this.service.ladders.some(l => l.start === cell || l.end === cell)) {
       return 'ladder';
     } else {
       return '';

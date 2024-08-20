@@ -3,6 +3,7 @@
     display: grid;
     grid-template-columns: repeat(10, 50px);
     gap: 5px;
+    margin-top: 20px;
   }
   
   .board div {
@@ -12,14 +13,17 @@
     align-items: center;
     justify-content: center;
     border: 1px solid #000;
+    position: relative;
   }
   
   .player {
     background-color: yellow;
   }
+  
   .snake {
     background-color: red;
   }
+  
   .ladder {
     background-color: green;
   }
