@@ -1,1 +1,18 @@
-<p>game works!</p>
+<!-- game.component.html -->
+<div>
+    <h1>Snake and Ladder Game</h1>
+    <p>Player Position: {{ playerPosition }}</p>
+  
+    <button (click)="rollDice()">Roll Dice</button>
+    <p>Dice Value: {{ diceValue }}</p>
+  
+    <button (click)="resetGame()">Reset Game</button>
+  
+    <div class="board">
+      <div *ngFor="let cell of board; let i = index" 
+           [class]="getClassForCell(i + 1)">
+        {{ i + 1 }}
+      </div>
+    </div>
+  </div>
+  
